@@ -1,0 +1,24 @@
+package Hierarchi;
+
+import java.io.Serializable;
+
+public class Mushroom extends Organism implements Serializable {
+	
+	private String family;
+	
+	public Mushroom (String name, String family){
+		super (name);//, "Mushroom");
+		this.family = family;
+	}
+	
+	
+	public void setfamily(String family){
+		this.family = family;
+	}
+	
+	public String getfamily(){
+		return this.family;
+	}
+
+
+}
