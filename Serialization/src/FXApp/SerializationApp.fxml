@@ -22,9 +22,9 @@
             <RadioButton fx:id="animalButton" layoutX="27.0" layoutY="196.0" mnemonicParsing="false" onAction="#clickAnimal" text="Animal" />
             <RadioButton fx:id="eubacteriaButton" layoutX="27.0" layoutY="234.0" mnemonicParsing="false" onAction="#clickEubacteria" text="Eubacteria" />
             <Label layoutX="187.0" layoutY="22.0" prefHeight="21.0" prefWidth="117.0" text="name" />
-            <Label layoutX="187.0" layoutY="68.0" prefHeight="21.0" prefWidth="117.0" text="field" />
+            <Label layoutX="187.0" layoutY="68.0" prefHeight="21.0" prefWidth="117.0" text="family" />
             <Label fx:id="secondLabel" layoutX="179.0" layoutY="279.0" prefHeight="21.0" prefWidth="118.0" />
-            <Label fx:id="firstLabel" layoutX="187.0" layoutY="121.0" prefHeight="21.0" prefWidth="118.0" text="field1" />
+            <Label fx:id="firstLabel" layoutX="179.0" layoutY="121.0" prefHeight="21.0" prefWidth="118.0" text="cell count" />
          </children>
       </Pane>
       <ListView fx:id="listView" layoutX="618.0" prefHeight="470.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

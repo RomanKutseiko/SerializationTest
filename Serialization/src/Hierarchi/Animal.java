@@ -7,7 +7,7 @@ public class Animal extends Organism implements Serializable {
 	private String family;
 	
 	public Animal (String name, String family){
-		super (name);//, "Animal");
+		super (name);
 		this.family = family;
 	}
 	

@@ -7,7 +7,7 @@ public class Archaea extends Organism implements Serializable {
 	private String cellCount;
 	
 	public Archaea (String name, String cellCount){
-		super (name);//, "Archaea");
+		super (name);
 		this.cellCount = cellCount;
 	}
 

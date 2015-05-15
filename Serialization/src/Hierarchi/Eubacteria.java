@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 public class Eubacteria extends Organism implements Serializable {
 	
+	private String family;
 	private String cellCount;
+
 	
-	public Eubacteria (String name, String cellCount){
-		super (name);//, "Eubacteria");
+	public Eubacteria (String name, String family, String cellCount){
+		super (name);
 		this.cellCount = cellCount;
+		this.family = family;
 	}
 
 	
@@ -18,6 +21,14 @@ public class Eubacteria extends Organism implements Serializable {
 	
 	public String getCellCount(){
 		return this.cellCount;
+	}
+	
+	public void setfamily(String family){
+		this.family = family;
+	}
+	
+	public String getfamily(){
+		return this.family;
 	}
 
 

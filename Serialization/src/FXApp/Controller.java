@@ -1,7 +1,5 @@
 package FXApp;
 
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,7 +31,6 @@ public class Controller implements Initializable {
 	private Organism organism;
 	final ToggleGroup group = new ToggleGroup();
     private ArrayList<TextField> textFields = new ArrayList<TextField>();
-    //private ArrayList<Organism> listOfOrganisms = new ArrayList<Organism>();
     private ObservableList<Object> listOfOrganisms = FXCollections.observableArrayList();
 	
 
@@ -42,7 +39,6 @@ public class Controller implements Initializable {
         textFields.add(nameTextField);
         textFields.add(familyTextField);
         textFields.add(firstTextField);
-        //textFields.add(thirdTextField);
         try {
             try {
 				listOfOrganisms = FXCollections.observableArrayList(Arrays.asList(deserialize()));
@@ -53,8 +49,8 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             listOfOrganisms.add(new Plant("Green", "low"));
             listOfOrganisms.add(new Mushroom("Mush", "short"));
-            listOfOrganisms.add(new Virus("Vir", "us", "3"));
-            listOfOrganisms.add(new Eubacteria("Bac", "3"));
+            listOfOrganisms.add(new Virus("Vir", "3", "us"));
+            listOfOrganisms.add(new Eubacteria("Bac", "3", "teria"));
         }
 
         plantButton.setToggleGroup(group);
@@ -139,7 +135,7 @@ public class Controller implements Initializable {
     @FXML
     private void clickVirus() {
         clearFields();
-        organism = new Virus("default", "default", "0");
+        organism = new Virus("default", "0", "default");
     }
     
     @FXML
@@ -157,7 +153,7 @@ public class Controller implements Initializable {
     @FXML
     private void clickEubacteria() {
         clearFields();
-        organism = new Eubacteria("default", "0");
+        organism = new Eubacteria("default", "0", "default");
     }
     
     
