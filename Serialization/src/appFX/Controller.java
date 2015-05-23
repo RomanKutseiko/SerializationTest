@@ -1,4 +1,4 @@
-package FXApp;
+package appFX;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +38,7 @@ public class Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
         textFields.add(nameTextField);
         textFields.add(familyTextField);
-        textFields.add(firstTextField);
+        textFields.add(cellsAmountTextField);
         try {
             try {
 				listOfOrganisms = FXCollections.observableArrayList(Arrays.asList(deserialize()));
@@ -78,7 +78,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField cellTextField = new TextField();
     @FXML
-    private TextField firstTextField = new TextField();
+    private TextField cellsAmountTextField = new TextField();
 
 
 
@@ -107,9 +107,17 @@ public class Controller implements Initializable {
 	
     @FXML
     private void addToList() throws IllegalArgumentException, IllegalAccessException {
-        if (organism != null) {
+        boolean  IN_LIST_ALREADY = false;
+    	if (organism != null) {
             setFields(organism);
-            listOfOrganisms.add(organism);
+            for (Object org : listOfOrganisms){
+            	if (org == organism){
+            		IN_LIST_ALREADY = true;
+            	}
+            }
+            if (!IN_LIST_ALREADY)
+            	listOfOrganisms.add(organism);
+            getFields(organism);
         }
 
     }
@@ -124,36 +132,42 @@ public class Controller implements Initializable {
     private void clickPlant() {
         clearFields();
         organism = new Plant("default", "default");
-    }
+        cellsAmountTextField.setDisable(true);
+        }
 
     @FXML
     private void clickAnimal() {
         clearFields();
         organism = new Animal("default", "default");
+        cellsAmountTextField.setDisable(true);
     }
     
     @FXML
     private void clickVirus() {
         clearFields();
         organism = new Virus("default", "0", "default");
+        cellsAmountTextField.setDisable(false);
     }
     
     @FXML
     private void clickArchaea() {
         clearFields();
-        organism = new Archaea("default", "1");
+        organism = new Archaea("default", "0");
+        cellsAmountTextField.setDisable(true);
     }
     
     @FXML
     private void clickMushroom() {
         clearFields();
         organism = new Mushroom("default", "default");
+        cellsAmountTextField.setDisable(true);
     }
     
     @FXML
     private void clickEubacteria() {
         clearFields();
         organism = new Eubacteria("default", "0", "default");
+        cellsAmountTextField.setDisable(false);
     }
     
     
@@ -190,12 +204,6 @@ public class Controller implements Initializable {
             fields.addAll(Arrays.asList(reflectionClass.getDeclaredFields()));
         }
         int i = fields.size() - 1;
-        if (i == 2){
-        	fields.get(0).setAccessible(true);
-        	fields.get(0).set(old, (String) textFields.get(0).getText());
-        	fields.get(1).setAccessible(true);
-        	fields.get(0).set(old, (String) textFields.get(1).getText());
-        }
         for (Field field : fields) {
             field.setAccessible(true);
             try {
@@ -207,27 +215,6 @@ public class Controller implements Initializable {
         }
         clearFields();
     }
-
-   /* private void updateLabel() {
-        Class reflectionClass = organism.getClass();
-        ArrayList<Field> fields = new ArrayList<Field>();
-        fields.addAll(Arrays.asList(reflectionClass.getDeclaredFields()));
-
-        while (reflectionClass.getSuperclass() != null) {
-            reflectionClass = reflectionClass.getSuperclass();
-            fields.addAll(Arrays.asList(reflectionClass.getDeclaredFields()));
-        }
-        /*if (fields.size() == 4) {
-            firstLabel.setText(fields.get(1).getName() + ":");
-            secondLabel.setText(fields.get(0).getName() + ":");
-        } else {
-            firstLabel.setText(fields.get(0).getName() + ":");
-            secondLabel.setText("");
-        }*//*
-        if (fields.size() == 3) {
-        	firstLabel.setText(fields.get(0).getName() + ":");
-        }
-    }*/
 
 
     private void clearFields() {
