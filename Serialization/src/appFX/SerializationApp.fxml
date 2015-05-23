@@ -31,5 +31,6 @@
       <Button layoutX="446.0" layoutY="302.0" mnemonicParsing="false" onAction="#delete" prefHeight="31.0" prefWidth="80.0" text="Delete" />
       <Button layoutX="340.0" layoutY="374.0" mnemonicParsing="false" onAction="#serialize" prefHeight="31.0" prefWidth="185.0" text="Serialize" />
       <TextField fx:id="cellsAmountTextField" layoutX="329.0" layoutY="146.0" />
+      <Button layoutX="232.0" layoutY="374.0" mnemonicParsing="false" onAction="#loadPluginOnClick" prefHeight="31.0" prefWidth="79.0" text="Load Plugin" />
    </children>
 </AnchorPane>

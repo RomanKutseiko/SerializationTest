@@ -1,11 +1,5 @@
 package appFX;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,11 +11,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
+import organismPack.Organism;
 import Hierarchi.Animal;
 import Hierarchi.Archaea;
 import Hierarchi.Eubacteria;
 import Hierarchi.Mushroom;
-import Hierarchi.Organism;
 import Hierarchi.Plant;
 import Hierarchi.Virus;
 
@@ -168,6 +172,27 @@ public class Controller implements Initializable {
         clearFields();
         organism = new Eubacteria("default", "0", "default");
         cellsAmountTextField.setDisable(false);
+    }
+    
+    ArrayList<Class> classList = new ArrayList();    
+
+    @FXML
+    private void loadPluginOnClick(){
+    	FileChooser fileChooser = new FileChooser();
+    	Loader loader = new Loader(fileChooser.showOpenDialog(null));
+    	classList.add(loader.getClassFromPlugin());
+    }
+    
+    private Organism createOrganism (int index){
+    	try{
+    		Class[] cArg = new Class[4];
+    		cArg[0] = cArg[1] = cArg[2] = cArg[3] = String.class;
+    		Organism org = (Organism)classList.get(index).getDeclaredConstructor(cArg).newInstance("default", "default", "default");
+    		return org;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
     }
     
     

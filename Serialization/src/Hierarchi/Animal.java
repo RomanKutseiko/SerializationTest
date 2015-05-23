@@ -2,6 +2,8 @@ package Hierarchi;
 
 import java.io.Serializable;
 
+import organismPack.Organism;
+
 public class Animal extends Organism implements Serializable {
 	
 	private String family;
