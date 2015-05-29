@@ -309,14 +309,13 @@ public class Controller implements Initializable {
     	};
     	className = className.substring(10, i);
     	radioButton.setText(className);
-        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            public void changed(ObservableValue<? extends Toggle> ov,
-                Toggle old_toggle, Toggle new_toggle) {
-              if (group.getSelectedToggle() != null) {
-                clearFields();
-                organism = createOrganism(index);
+        radioButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov,
+                Boolean old_toggle, Boolean new_toggle) {
+                	clearFields();
+                	organism = createOrganism(index);
+                    cellsAmountTextField.setDisable(false);
               }
-            }
           });
         
         radioButton.setLayoutY(index * 38 + 272);
