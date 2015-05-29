@@ -1,5 +1,7 @@
 package appFX;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,15 +13,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import organismPack.Organism;
 import Hierarchi.Animal;
@@ -32,10 +39,12 @@ import Hierarchi.Virus;
 
 public class Controller implements Initializable {
 	
-	private Organism organism;
+	private Organism organism = null;
 	final ToggleGroup group = new ToggleGroup();
     private ArrayList<TextField> textFields = new ArrayList<TextField>();
     private ObservableList<Object> listOfOrganisms = FXCollections.observableArrayList();
+    private ArrayList<Class> classList = new ArrayList(); 
+
 	
 
 	@Override
@@ -107,6 +116,8 @@ public class Controller implements Initializable {
     RadioButton archaeaButton = new RadioButton();
     @FXML
     RadioButton virusButton = new RadioButton();
+    @FXML
+    Pane pane;
     
 	
     @FXML
@@ -174,28 +185,6 @@ public class Controller implements Initializable {
         cellsAmountTextField.setDisable(false);
     }
     
-    ArrayList<Class> classList = new ArrayList();    
-
-    @FXML
-    private void loadPluginOnClick(){
-    	FileChooser fileChooser = new FileChooser();
-    	Loader loader = new Loader(fileChooser.showOpenDialog(null));
-    	classList.add(loader.getClassFromPlugin());
-    }
-    
-    private Organism createOrganism (int index){
-    	try{
-    		Class[] cArg = new Class[4];
-    		cArg[0] = cArg[1] = cArg[2] = cArg[3] = String.class;
-    		Organism org = (Organism)classList.get(index).getDeclaredConstructor(cArg).newInstance("default", "default", "default");
-    		return org;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	return null;
-    }
-    
-    
     private void getFields(Organism old) {
         clearFields();
         Class reflectionClass = old.getClass();
@@ -253,12 +242,32 @@ public class Controller implements Initializable {
 		  FileInputStream fis = new FileInputStream("E:/Java/HP/Serialization/temp.out");
 		  Object[] list = null;
 		  ObjectInputStream oin = new ObjectInputStream(fis);
+		  //resolveProxyClass
 		  list = (Object[]) oin.readObject();
 		  return list;
     }
 
     @FXML
-    private void serialize() throws IOException {
+    private void deserialiseClick() throws IOException, ClassNotFoundException {
+    	 try {
+             try {
+ 				listOfOrganisms = FXCollections.observableArrayList(Arrays.asList(deserialize()));
+ 			} catch (ClassNotFoundException e) {
+ 				// TODO Auto-generated catch block
+ 				e.printStackTrace();
+ 			}
+         } catch (IOException e) {
+             listOfOrganisms.add(new Plant("Green", "low"));
+             listOfOrganisms.add(new Mushroom("Mush", "short"));
+             listOfOrganisms.add(new Virus("Vir", "3", "us"));
+             listOfOrganisms.add(new Eubacteria("Bac", "3", "teria"));
+         }
+         listView.setItems(listOfOrganisms);
+
+    }
+    
+    @FXML
+    private void serializeClick() throws IOException {
 		  FileOutputStream fos = new FileOutputStream("E:/Java/HP/Serialization/temp.out");
 		  ObjectOutputStream oos = new ObjectOutputStream(fos);
 		  oos.writeObject(listOfOrganisms.toArray());
@@ -266,5 +275,54 @@ public class Controller implements Initializable {
 		  oos.close();
     	
     }
+    
+    
+    @FXML
+    private void loadPluginOnClick(){
+    	FileChooser fileChooser = new FileChooser();
+    	Loader loader = new Loader(fileChooser.showOpenDialog(null));
+    	classList.add(loader.getClassFromPlugin());
+    	createButton(classList.size() - 1);
+    }
+    
+    private Organism createOrganism (int index){
+    	try{
+    		Class[] cArg = new Class[3];
+    		cArg[0] = cArg[1] = cArg[2] = String.class;
+    		Organism org = (Organism)classList.get(index).getDeclaredConstructor(cArg).newInstance("default", "default", "default");
+    		return org;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
+    
+    
+    private void createButton(int index){
+    	Organism newOrganism = createOrganism(index);
+    	RadioButton radioButton = new RadioButton();
+    	radioButton.setToggleGroup(group);
+    	String className = newOrganism.toString();
+    	int i = 10;
+    	while ( className.charAt(i) != '@'){
+    		i++;
+    	};
+    	className = className.substring(10, i);
+    	radioButton.setText(className);
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            public void changed(ObservableValue<? extends Toggle> ov,
+                Toggle old_toggle, Toggle new_toggle) {
+              if (group.getSelectedToggle() != null) {
+                clearFields();
+                organism = createOrganism(index);
+              }
+            }
+          });
+        
+        radioButton.setLayoutY(index * 38 + 272);
+        radioButton.setLayoutX(27);
+        pane.getChildren().add(radioButton);
+    }
+    
     
 }
