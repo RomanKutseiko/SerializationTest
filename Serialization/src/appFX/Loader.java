@@ -7,7 +7,9 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class Loader {
+import Hierarchi.Plant;
+
+public class Loader extends ClassLoader{
 	
 	private File jar;
 	
@@ -20,18 +22,26 @@ public class Loader {
 	public Class getClassFromPlugin(){	
 	try {
         URL jarURL = jar.toURI().toURL();
-        URLClassLoader classLoader = new URLClassLoader(new URL[]{jarURL});
+        //URLClassLoader classLoader1 = (URLClassLoader)ClassLoader.getSystemClassLoader();//Plant.class.getClassLoader();
+        //URLClassLoader  classLoader2 = new URLClassLoader(new URL[]{jarURL}, Plant.class.getClassLoader());
+        //classLoader1.ne;
+        //classLoader.loadClass(jar.getAbsolutePath());
+        
+        ClassLoader classLoader = new URLClassLoader(new URL[]{jarURL});
         JarFile jf = new JarFile(jar);
         Enumeration<JarEntry> entries = jf.entries();
+        String s = jf.getName();
         while (entries.hasMoreElements()) {
           String e = entries.nextElement().getName();
           if (!e.endsWith(".class")) continue;
           e = e.replaceAll("/", ".");
           e = e.replaceAll(".class", "");
-          Class<?> plugCan = classLoader.loadClass(e);
+          Class<?> plugCan = classLoader2.loadClass(e);
+          //Class<?> plugCan = classLoader.loadClass("/Helminths.src.Hierarchi.Helminths.class");
           Class<?> superClass = plugCan.getSuperclass();
 	      if (superClass.getName().endsWith(".Organism")) {
 	        Class c = classLoader.loadClass(plugCan.getName());
+	        //Class c = classLoader.loadClass("Helminths.src." + plugCan.getName());
 	        return c;
 	      } 
         }
