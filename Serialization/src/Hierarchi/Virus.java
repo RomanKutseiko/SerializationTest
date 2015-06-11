@@ -6,6 +6,11 @@ import organismPack.Organism;
 
 public class Virus extends Organism implements Serializable {
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2846554262542445315L;
 	private String family;
 	private String cellCount;
 	

@@ -6,6 +6,11 @@ import organismPack.Organism;
 
 public class Animal extends Organism implements Serializable {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 631333492216987882L;
 	private String family;
 	
 	public Animal (String name, String family){

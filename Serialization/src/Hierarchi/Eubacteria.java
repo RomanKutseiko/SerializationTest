@@ -6,6 +6,11 @@ import organismPack.Organism;
 
 public class Eubacteria extends Organism implements Serializable {
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7229482503652807101L;
 	private String family;
 	private String cellCount;
 

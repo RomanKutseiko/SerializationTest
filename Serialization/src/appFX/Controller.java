@@ -199,7 +199,8 @@ public class Controller implements Initializable {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                textFields.get(i).setText((String) field.get(old));
+            	if (i == fields.size() - 1){ i--; continue;}
+                textFields.get(i).setText("" + (String) field.get(old));
                 i--;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -221,6 +222,7 @@ public class Controller implements Initializable {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
+            	if (i == fields.size() - 1){ i--; continue;}
                 field.set(old, (String) textFields.get(i).getText());
                 i--;
             } catch (IllegalAccessException e) {
@@ -278,10 +280,10 @@ public class Controller implements Initializable {
     
     
     @FXML
-    private void loadPluginOnClick(){
+    private void loadPluginOnClick() throws IOException, ClassNotFoundException{
     	FileChooser fileChooser = new FileChooser();
-    	Loader loader = new Loader(fileChooser.showOpenDialog(null));
-    	classList.add(loader.getClassFromPlugin());
+    	Loader loader = new Loader(fileChooser.showOpenDialog(null).toString(), Plant.class.getClassLoader());//ClassLoader.getSystemClassLoader());
+    	classList.add(loader.loadClass());
     	createButton(classList.size() - 1);
     }
     
